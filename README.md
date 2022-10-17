@@ -1,1 +1,2 @@
-# assignment3_SDP
+# Software design patterns "Let's go"
+
