@@ -1,12 +1,13 @@
-{{define "title"}}Home{{end}}
+{{define "title"}}Task Information{{end}}
 {{define "main"}}
-<h2>Latest Snippets</h2>
+<h2 id="task"> Tasks</h2>
 {{if .Snippets}}
 <table>
 <tr>
 <th>Title</th>
 <th>Created</th>
-<th>ID</th>
+<th id="idshka">ID    </th>
+<th id="complete">Complete    </th>
 </tr>
 {{range .Snippets}}
 <tr>
@@ -14,7 +15,11 @@
 <td><a href='/snippet/view/{{.ID}}'>{{.Title}}</a></td>
 <td>{{humanDate .Created}}</td>
 <td>#{{.ID}}</td>
+<td id="qaz"><form action="/snippet/delete/{{.ID}}" method="GET"><input type="submit" value="&#10004" id="buttn"></form></td>
 </tr>
+
+
+
 {{end}}
 </table>
 {{else}}

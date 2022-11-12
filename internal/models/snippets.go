@@ -21,6 +21,14 @@ type Snippet struct {
 type SnippetModel struct {
 	DB *sql.DB
 }
+type (
+	SnippetModelInterface interface {
+		Insert(title string, content string, expires int) (int, error)
+		Get(id int) (*Snippet, error)
+		Latest() ([]*Snippet, error)
+		Delete(id int) error
+	}
+)
 
 func (m *SnippetModel) Insert(title string, content string, expires int) (int, error) {
 	// Write the SQL statement we want to execute. I've split it over two lines
@@ -131,3 +139,24 @@ WHERE expires > UTC_TIMESTAMP() ORDER BY id DESC LIMIT 10`
 	// If everything went OK then return the Snippets slice.
 	return snippets, nil
 }
+
+func (m *SnippetModel) Delete(id int) error {
+	stmt := `DELETE FROM snippets WHERE id=?;`
+	_, err := m.DB.Exec(stmt, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//func (m *SnippetModel) Delete(id uuid.UUID) error {
+//	stmt := `DELETE FROM snippets
+//      WHERE id=?;`
+//
+//	_, err := m.DB.Exec(stmt, id.String());
+//	if err != nil {
+//		return err
+//	}
+//
+//	return nil
+//}
